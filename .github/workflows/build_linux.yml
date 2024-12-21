@@ -45,15 +45,26 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get -y install ant git gcc cmake bison flex pkg-config
+          sudo apt-get -y install libx11-dev
+
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: 'jetbrains'
           java-version: '21'
+
       - name: Checkout sources
         uses: actions/checkout@v4
         with:
           repository: 'JetBrains/jcef'
+
       - name: Build
         run: |
           ./jb/tools/linux/build.sh all x86_64
+
+      - name: Upload Linux-x64 (rpm)
+        uses: actions/upload-artifact@v4
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        with:
+          name: Linux-x64
+          path: jcef_linux_x86_64.tar.gz
