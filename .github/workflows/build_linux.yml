@@ -88,14 +88,11 @@ jobs:
           echo "-------------------"
           echo ""
 
-      - name: Upload jcef_linux_x64.tar.gz
+      - name: Upload linux64-packages
         uses: actions/upload-artifact@v4
         if: ${{ matrix.os == 'ubuntu-latest' }}
         with:
-          path: jcef_linux_x64.tar.gz
-
-      - name: Upload cef_server_linux_x64.tar.gz
-        uses: actions/upload-artifact@v4
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        with:
-          path: cef_server_linux_x64.tar.gz
+          name: linux64
+          path: |
+            ./*.tar.gz
+            ./out/linux64
