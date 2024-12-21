@@ -31,7 +31,7 @@ jobs:
   bundle:
     strategy:
       matrix:
-        os: [ macos-latest, macos-13, ubuntu-latest, windows-latest ]
+        os: [ macos-latest, macos-13, ubuntu-latest, windows-2019 ]
         exclude:
           - os: ${{ !inputs.macos_arm64 && 'macos-latest' }}
           - os: ${{ !inputs.macos_x64 && 'macos-13' }}
