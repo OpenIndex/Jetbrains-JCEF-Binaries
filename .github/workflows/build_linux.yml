@@ -36,7 +36,7 @@ jobs:
           - os: ${{ !inputs.macos_arm64 && 'macos-latest' }}
           - os: ${{ !inputs.macos_x64 && 'macos-13' }}
           - os: ${{ !inputs.linux_x64 && 'ubuntu-latest' }}
-          - os: ${{ !inputs.windows_x64 && 'windows-latest' }}
+          - os: ${{ !inputs.windows_x64 && 'windows-2019' }}
       fail-fast: false
 
     runs-on: ${{ matrix.os }}
@@ -50,7 +50,7 @@ jobs:
 
       - name: Setup Python for Windows x64
         uses: LizardByte/setup-python-action@master
-        if: ${{ matrix.os == 'windows-latest' }}
+        if: ${{ matrix.os == 'windows-2019' }}
         with:
           python-version: '2.7'
 
@@ -81,9 +81,9 @@ jobs:
           ./jb/tools/mac/build.sh all arm64
 
       - name: Build for Windows x64
-        if: ${{ matrix.os == 'windows-latest' }}
+        if: ${{ matrix.os == 'windows-2019' }}
         env:
-          VS160COMNTOOLS: 'C:/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/Tools'
+          VS160COMNTOOLS: 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/Common7/Tools'
           ANT_HOME: 'C:/ProgramData/Chocolatey/bin/ant'
           JCEF_CMAKE: 'C:/Program Files/CMake/bin/cmake'
           PYTHON_27_PATH: 'C:/tmp/python27/venv/Scripts/python'
@@ -91,7 +91,7 @@ jobs:
           cd jb\tools\windows
           cmd /c build.bat all x86_64
 
-      - name: Build
+      - name: Listing
         shell: bash
         run: |
           echo ""
