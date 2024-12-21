@@ -53,7 +53,7 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@v4
         with:
-          repository: 'https://github.com/JetBrains/jcef.git'
+          repository: 'JetBrains/jcef'
       - name: Build
         run: |
           ./jb/tools/linux/build.sh all x86_64
