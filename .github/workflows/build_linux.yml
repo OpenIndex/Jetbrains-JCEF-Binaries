@@ -1,0 +1,59 @@
+name: build
+
+on:
+  workflow_dispatch:
+    inputs:
+      macos_arm64:
+        description: "Build for MacOS arm64"
+        required: true
+        default: true
+        type: boolean
+
+      macos_x64:
+        description: "Build for MacOS x64"
+        required: true
+        default: true
+        type: boolean
+
+      linux_x64:
+        description: "Build for Linux x64"
+        required: true
+        default: true
+        type: boolean
+
+      windows_x64:
+        description: "Build for Windows x64"
+        required: true
+        default: true
+        type: boolean
+
+jobs:
+  bundle:
+    strategy:
+      matrix:
+        os: [ macos-latest, macos-13, ubuntu-latest, windows-latest ]
+        exclude:
+          - os: ${{ !inputs.macos_arm64 && 'macos-latest' }}
+          - os: ${{ !inputs.macos_x64 && 'macos-13' }}
+          - os: ${{ !inputs.linux_x64 && 'ubuntu-latest' }}
+          - os: ${{ !inputs.windows_x64 && 'windows-latest' }}
+      fail-fast: false
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install ant git gcc cmake bison flex pkg-config
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'jetbrains'
+          java-version: '21'
+      - name: Checkout sources
+        uses: actions/checkout@v4
+        with:
+          repository: 'https://github.com/JetBrains/jcef.git'
+      - name: Build
+        run: |
+          ./jb/tools/linux/build.sh all x86_64
