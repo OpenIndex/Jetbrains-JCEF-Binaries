@@ -41,7 +41,8 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     steps:
-      - name: Install dependencies
+      - name: Dependencies for Linux x64
+        if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
           sudo apt-get update
           sudo apt-get -y install ant git gcc cmake bison flex pkg-config
@@ -58,17 +59,32 @@ jobs:
         with:
           repository: 'JetBrains/jcef'
 
-      - name: Build
+      - name: Build for Linux x64
+        if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
           ./jb/tools/linux/build.sh all x86_64
 
+      - name: Build for MacOS x64
+        if: ${{ matrix.os == 'macos-13' }}
+        run: |
+          ./jb/tools/mac/build.sh all x86_64
+
+      - name: Build for MacOS arm64
+        if: ${{ matrix.os == 'macos-latest' }}
+        run: |
+          ./jb/tools/mac/build.sh all arm64
+
       - name: Build
+        shell: bash
         run: |
           echo ""
           echo "-------------------"
           echo " DIRECTORY LISTING"
           echo "-------------------"
+          echo "ROOT:"
           ls -1
+          echo "OUT:"
+          ls -1 out
           echo "-------------------"
           echo ""
 
@@ -78,7 +94,7 @@ jobs:
         with:
           path: jcef_linux_x64.tar.gz
 
-      - name: Upload jcef_linux_x64.tar.gz
+      - name: Upload cef_server_linux_x64.tar.gz
         uses: actions/upload-artifact@v4
         if: ${{ matrix.os == 'ubuntu-latest' }}
         with:
