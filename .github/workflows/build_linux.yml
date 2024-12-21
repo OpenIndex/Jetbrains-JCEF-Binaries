@@ -89,11 +89,29 @@ jobs:
           echo "-------------------"
           echo ""
 
-      - name: Upload linux64-packages
+      - name: Upload linux-x64 packages
         uses: actions/upload-artifact@v4
         if: ${{ matrix.os == 'ubuntu-latest' }}
         with:
-          name: linux64
+          name: jetbrains-jcef-linux-x64
           path: |
             ./*.tar.gz
-            ./out/linux64
+            ./out/linux64/*.jar
+
+      - name: Upload macos-x64 packages
+        uses: actions/upload-artifact@v4
+        if: ${{ matrix.os == 'macos-13' }}
+        with:
+          name: jetbrains-jcef-macos-x64
+          path: |
+            ./*.tar.gz
+            ./jcef_build/native/Release/*.jar
+
+      - name: Upload macos-arm64 packages
+        uses: actions/upload-artifact@v4
+        if: ${{ matrix.os == 'macos-latest' }}
+        with:
+          name: jetbrains-jcef-macos-arm64
+          path: |
+            ./*.tar.gz
+            ./jcef_build/native/Release/*.jar
