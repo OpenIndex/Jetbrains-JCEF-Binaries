@@ -54,6 +54,11 @@ jobs:
         with:
           python-version: '2.7'
 
+      - name: Test Ant
+        if: ${{ matrix.os == 'windows-2019' }}
+        run: |
+          ls "C:/ProgramData/Chocolatey/lib/ant/apache-ant-1.10.14"
+
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
@@ -84,7 +89,7 @@ jobs:
         if: ${{ matrix.os == 'windows-2019' }}
         env:
           VS160COMNTOOLS: 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/Common7/Tools'
-          ANT_HOME: 'C:/ProgramData/Chocolatey/bin/ant'
+          ANT_HOME: 'C:/ProgramData/Chocolatey/lib/ant/apache-ant-1.10.14'
           JCEF_CMAKE: 'C:/Program Files/CMake/bin/cmake'
           PYTHON_27_PATH: 'C:/tmp/python27/venv/Scripts/python'
         run: |
