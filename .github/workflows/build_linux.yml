@@ -74,6 +74,16 @@ jobs:
         run: |
           ./jb/tools/mac/build.sh all arm64
 
+      - name: Build for Windows x64
+        if: ${{ matrix.os == 'windows-latest' }}
+        env:
+          VS160COMNTOOLS: 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools'
+          #ANT_HOME:
+          #JCEF_CMAKE: 'C:\cmake-3.27.0-rc2-windows-x86_64'
+        run: |
+          which ant
+          which cmake
+
       - name: Build
         shell: bash
         run: |
