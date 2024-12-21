@@ -81,6 +81,7 @@ jobs:
           ANT_HOME: 'C:\ProgramData\Chocolatey\bin\ant'
           JCEF_CMAKE: 'C:\Program Files/CMake\bin\cmake'
         run: |
+          cd jb\tools\windows
           cmd /c build.bat all x86_64
 
       - name: Build
